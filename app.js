@@ -5,6 +5,7 @@ let currentQuiz = {
     currentIndex: 0,
     answers: [],
     startTime: null
+    shuffledChoices: []
 };
 
 // ローカルストレージのキー
@@ -90,20 +91,30 @@ function showQuestion() {
     const choicesContainer = document.getElementById('choices');
     choicesContainer.innerHTML = '';
 
-    question.choices.forEach((choice, index) => {
+    // 選択肢を「本文」と「元の番号」のセットにしてからシャッフル
+    currentQuiz.shuffledChoices = shuffleArray(
+        question.choices.map((choice, index) => ({
+            text: choice,
+            originalIndex: index
+        }))
+    );
+
+    currentQuiz.shuffledChoices.forEach((choiceObj, index) => {
         const choiceDiv = document.createElement('div');
         choiceDiv.className = 'choice';
-        choiceDiv.textContent = choice;
+        choiceDiv.textContent = choiceObj.text;
         choiceDiv.onclick = () => selectAnswer(index);
         choicesContainer.appendChild(choiceDiv);
     });
 }
 
-// 回答選択
+// 問題回答
 function selectAnswer(selectedIndex) {
     const question = currentQuiz.questions[currentQuiz.currentIndex];
     const choices = document.querySelectorAll('.choice');
-    const isCorrect = selectedIndex === question.correct;
+
+    const selectedChoice = currentQuiz.shuffledChoices[selectedIndex];
+    const isCorrect = selectedChoice.originalIndex === question.correct;
 
     // 選択を無効化
     choices.forEach(choice => {
@@ -111,9 +122,14 @@ function selectAnswer(selectedIndex) {
         choice.onclick = null;
     });
 
+    // 正解が画面上の何番目にあるか探す
+    const correctDisplayIndex = currentQuiz.shuffledChoices.findIndex(
+        choice => choice.originalIndex === question.correct
+    );
+
     // 正解・不正解の表示
     choices[selectedIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
-    choices[question.correct].classList.add('correct');
+    choices[correctDisplayIndex].classList.add('correct');
 
     // 解説を表示
     const choicesContainer = document.getElementById('choices');
@@ -144,9 +160,9 @@ function selectAnswer(selectedIndex) {
         question: question.question,
         category: question.category,
         selectedIndex: selectedIndex,
-        correctIndex: question.correct,
+        correctIndex: correctDisplayIndex,
         isCorrect: isCorrect,
-        choices: question.choices
+        choices: currentQuiz.shuffledChoices.map(choice => choice.text)
     });
 
     // 履歴を保存
