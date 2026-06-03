@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    <title>G検定トレーニングシステム</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="description" content="G検定合格のための学習アプリ。220問以上の実戦的な問題で合格レベルを目指そう。">
+</head>
+<body>
+    <div class="container">
+        <!-- スタート画面 -->
+        <div id="start-screen" class="screen active">
+            <h1>G検定トレーニング</h1>
+            <p class="subtitle">初学者から合格レベルまで</p>
+
+            <div class="stats-summary">
+                <div class="stat-item">
+                    <span class="stat-label">総問題数</span>
+                    <span class="stat-value" id="total-questions">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">正答率</span>
+                    <span class="stat-value" id="overall-accuracy">0%</span>
+                </div>
+            </div>
+
+            <div class="category-select">
+                <h2>分野を選択</h2>
+                <div id="category-buttons"></div>
+                <button class="btn btn-primary" onclick="startQuiz('all')">全分野からランダム出題</button>
+            </div>
+
+            <button class="btn btn-secondary" onclick="showAnalysis()">苦手分野分析</button>
+        </div>
+
+        <!-- クイズ画面 -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="quiz-info">
+                    <span id="question-number">1/10</span>
+                    <span id="current-category" class="category-badge"></span>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <h2 id="question-text"></h2>
+                <div id="choices" class="choices"></div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="quitQuiz()">中断して戻る</button>
+        </div>
+
+        <!-- 結果画面 -->
+        <div id="result-screen" class="screen">
+            <h1>結果</h1>
+            <div class="result-summary">
+                <div class="result-score">
+                    <span class="score-value" id="score">0</span>
+                    <span class="score-total">/ <span id="total">10</span></span>
+                </div>
+                <div class="result-percentage" id="percentage">0%</div>
+            </div>
+
+            <div class="result-details" id="result-details"></div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="retryQuiz()">もう一度</button>
+                <button class="btn btn-secondary" onclick="backToStart()">ホームに戻る</button>
+            </div>
+        </div>
+
+        <!-- 分析画面 -->
+        <div id="analysis-screen" class="screen">
+            <h1>苦手分野分析</h1>
+            <div id="analysis-content"></div>
+            <button class="btn btn-secondary" onclick="backToStart()">ホームに戻る</button>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Service Workerの登録（オフライン対応・PWA化）
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker登録成功:', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('Service Worker登録失敗:', err);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

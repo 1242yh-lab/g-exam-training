@@ -1,0 +1,10 @@
+{
+  "name": "G検定トレーニングシステム",
+  "short_name": "G検定",
+  "description": "G検定合格のための学習アプリ",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait"
+}
