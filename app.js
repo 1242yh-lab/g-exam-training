@@ -1,4 +1,4 @@
-// アプリケーションの状態管理
+// アプリケーションの状態管理 v2
 let currentQuiz = {
     category: null,
     questions: [],
