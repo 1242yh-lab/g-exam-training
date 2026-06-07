@@ -1,4 +1,4 @@
-const CACHE_NAME = 'g-exam-v2';
+const CACHE_NAME = 'g-exam-v1';
 const urlsToCache = [
   './',
   './index.html',
