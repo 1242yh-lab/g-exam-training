@@ -3,8 +3,8 @@ const urlsToCache = [
   './',
   './index.html',
   './style.css',
-  './app.js',
-  './questions.js',
+  './app.js?v=999',
+  './questions.js?v=999',
   './manifest.json'
 ];
 
