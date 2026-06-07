@@ -4,7 +4,7 @@ let currentQuiz = {
     questions: [],
     currentIndex: 0,
     answers: [],
-    startTime: null
+    startTime: null,
     shuffledChoices: []
 };
 
