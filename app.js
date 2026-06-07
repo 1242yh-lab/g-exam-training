@@ -122,7 +122,7 @@ function selectAnswer(selectedIndex) {
         choice.onclick = null;
     });
 
-    // 正解が画面上の何番目にあるか探す
+    // 正解が画面上の何番目に表示されているか探す
     const correctDisplayIndex = currentQuiz.shuffledChoices.findIndex(
         choice => choice.originalIndex === question.correct
     );
