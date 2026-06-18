@@ -624,3 +624,31 @@ function escapeHtml(value) {
 function escapeAttr(value) {
   return String(value).replaceAll("'", "\\'");
 }
+function resetLearningData() {
+  const confirmed = confirm(
+    "学習履歴と問題ごとの進捗をリセットします。\n本当に削除しますか？"
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  localStorage.removeItem(STORAGE_KEYS.history);
+  localStorage.removeItem(STORAGE_KEYS.progress);
+  localStorage.removeItem("g_exam_history");
+
+  currentQuiz = {
+    mode: "quick",
+    category: "all",
+    questions: [],
+    currentIndex: 0,
+    answers: [],
+    startTime: null,
+    shuffledChoices: []
+  };
+
+  updateStats();
+  showScreen("start-screen");
+
+  alert("学習データをリセットしました。");
+}
