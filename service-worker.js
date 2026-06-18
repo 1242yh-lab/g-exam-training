@@ -1,11 +1,11 @@
-const CACHE_NAME = "g-exam-v6";
+const CACHE_NAME = "g-exam-v8";
 
 const urlsToCache = [
   "./",
   "./index.html",
   "./style.css",
-  "./app.js?v=20260618-2",
-  "./questions.js?v=20260618-2",
+  "./app.js?v=20260618-4",
+  "./questions.js?v=20260618-4",
   "./manifest.json"
 ];
 
